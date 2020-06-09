@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_explore">
+
+    <fragment
+        android:id="@+id/navigation_wish"
+        android:name="com.studio.housing3.ui.home.WishlistFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_wish" />
+
+    <fragment
+        android:id="@+id/navigation_explore"
+        android:name="com.studio.housing3.ui.dashboard.ExploreFragment"
+        android:label="Dash"
+        tools:layout="@layout/fragment_dashboard" />
+    
+    <fragment
+    android:id="@+id/navigation_profile"
+    android:name="com.studio.housing3.ui.FragmentProfile"
+    android:label="profile"
+    tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_notification"
+        android:name="com.studio.housing3.ui.notifications.FragmentNotify"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notification" />
+</navigation>

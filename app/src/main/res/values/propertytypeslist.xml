@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_of_property">
+        <item>Bedsitters</item>
+        <item>Bungalow</item>
+        <item>Apartment</item>
+        <item>Townhouse</item>
+        <item>Ranch</item>
+        <item>Flat</item>
+        <item>Mansion</item>
+        <item>Villa</item>
+        <item>Condo</item>
+        <item>Duplex</item>
+        <item>Maisonette</item>
+        <item>Penthouse</item>
+        <item>Mini house</item>
+        <item>Studio Apartment</item>
+        <item>Farm House</item>
+    </string-array>
+</resources>

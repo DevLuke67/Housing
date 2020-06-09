@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="either_furnished">
+    <item>Furnished</item>
+    <item>Semi-furnished</item>
+        <item>Unfurnished</item>
+
+    </string-array>
+</resources>

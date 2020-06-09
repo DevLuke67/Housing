@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:scrollbarSize="0dp"
+    android:layout_height="match_parent"
+    tools:context=".Rent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".Rent">
+
+    <ProgressBar
+        android:visibility="invisible"
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyle"
+        android:indeterminateDrawable="@drawable/progress_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:src="@drawable/rentbg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:textColor="@android:color/white"
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Looking to rent?"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="232dp"
+        android:layout_height="173dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/rent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:fontFamily="@font/proximanovaregular"
+        android:id="@+id/lhomeocation"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/wherebg"
+        android:drawableStart="@drawable/ic_location_on_black_24dp"
+        android:drawablePadding="5dp"
+        android:hint="Home location"
+        android:paddingLeft="10dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <EditText
+        android:paddingLeft="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_home_black_24dp"
+        android:fontFamily="@font/proximanovaregular"
+        android:textSize="16sp"
+        android:hint="Title or short description"
+        android:background="@drawable/wherebg"
+        android:id="@+id/homename"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lhomeocation" />
+
+    <Spinner
+        android:id="@+id/funishing"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/wherebg"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bedrooms" />
+
+    <Spinner
+        android:id="@+id/bedrooms"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/wherebg"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bathrooms" />
+
+    <Spinner
+        android:id="@+id/bathrooms"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/wherebg"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberofrooms" />
+
+    <Spinner
+        android:id="@+id/propertytype"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/wherebg"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homename" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Property type"
+        android:textColor="#2095a2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/propertytype"
+        app:layout_constraintEnd_toStartOf="@+id/propertytype"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/propertytype" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="Price Range"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <Spinner
+        android:id="@+id/numberofrooms"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/wherebg"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/propertytype" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Rooms"
+        android:textColor="#2095a2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberofrooms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/numberofrooms" />
+
+    <EditText
+        android:fontFamily="@font/proximanovaregular"
+        android:textAlignment="center"
+        android:id="@+id/pricerange1"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:hint="Ksh"
+        android:inputType="number|text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <EditText
+        android:fontFamily="@font/proximanovaregular"
+        android:textAlignment="center"
+        android:id="@+id/pricerange2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:hint="ksh"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/pricerange1"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="About home"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/abouthome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pricerange1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="-"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pricerange1"
+        app:layout_constraintEnd_toStartOf="@+id/pricerange2"
+        app:layout_constraintStart_toEndOf="@+id/pricerange1"
+        app:layout_constraintTop_toTopOf="@+id/pricerange1" />
+
+    <EditText
+        android:fontFamily="@font/proximanovaregular"
+        android:id="@+id/abouthome"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/wherebg"
+        android:gravity="top"
+        android:hint="write something"
+        android:inputType="textMultiLine"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textAlignment="gravity"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pricerange1" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/renthomeng"
+        android:fontFamily="@font/proximanovaregular"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:text="Rent Home"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Bathrooms"
+        android:textColor="#2095a2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bathrooms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bathrooms" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Bedrooms"
+        android:textColor="#2095a2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bedrooms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bathrooms" />
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Funishing"
+        android:textColor="#2095a2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/funishing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bedrooms" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:src="@drawable/cam"
+            android:id="@+id/picone"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/wherebg"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pic3"
+            app:layout_constraintStart_toEndOf="@+id/pic2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:riv_corner_radius="5dp" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:src="@drawable/cam"
+            android:id="@+id/pic2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/wherebg"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:riv_corner_radius="5dp" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:src="@drawable/cam"
+            android:id="@+id/pic3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/wherebg"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="5dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="16sp"
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Upload samples"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/abouthome" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
