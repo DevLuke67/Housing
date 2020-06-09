@@ -11,13 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".Editothers">
-
-        </activity>
+        <activity android:name=".ViewSales"></activity>
+        <activity android:name=".Editothers"></activity>
         <activity android:name=".Editcontact" />
-        <activity android:name=".EditAbout"
-            android:theme="@style/editabout">
-        </activity>
+        <activity
+            android:name=".EditAbout"
+            android:theme="@style/editabout"></activity>
         <activity
             android:name=".LoginRegister"
             android:theme="@style/register" />
