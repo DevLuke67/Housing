@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -50,11 +51,11 @@ class EditAbout : AppCompatActivity() {
             getcurrent.setValue(newdat)
                 .addOnSuccessListener {
                     val builder = CFAlertDialog.Builder(this)
-                        .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
-                        .setHeaderView(R.layout.poplocation)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTextGravity(Gravity.CENTER)
                         .setTitle("Successfully updated")
-                        .setMessage("About can be updated at anytime.")
+                        .setMessage("Location can be updated at anytime.")
+                    builder.setHeaderView(R.layout.poplocation)
                     builder.addButton(
                         "CLOSE",
                         Color.parseColor("#FFFFFF"),
@@ -75,10 +76,10 @@ class EditAbout : AppCompatActivity() {
             getcurrent.setValue(newdat)
                 .addOnSuccessListener {
                     val builder = CFAlertDialog.Builder(this)
-                        .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTitle("Successfully updated")
                         .setTextGravity(Gravity.CENTER)
-                        .setMessage("About can be updated at anytime.")
+                        .setMessage("Your clients will contact you using this new email")
                     builder.setHeaderView(R.layout.popemail)
                     builder.addButton(
                         "CLOSE",
@@ -96,27 +97,47 @@ class EditAbout : AppCompatActivity() {
         changephonenumber.setOnClickListener {
             val myid = FirebaseAuth.getInstance().uid
             val newdat = phonenumberedit.text.toString()
-            val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/phone")
-            getcurrent.setValue(newdat)
-                .addOnSuccessListener {
-                    val builder = CFAlertDialog.Builder(this)
-                        .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
-                        .setTextGravity(Gravity.CENTER)
-                        .setHeaderView(R.layout.popphonel)
-                        .setTitle("Successfully updated")
-                        .setMessage("About can be updated at anytime.")
-                    builder.addButton(
-                        "CLOSE",
-                        Color.parseColor("#FFFFFF"),
-                        Color.parseColor("#429ef4"),
-                        CFAlertDialog.CFAlertActionStyle.POSITIVE,
-                        CFAlertDialog.CFAlertActionAlignment.CENTER
-                    ) { dialog, which ->
-                        dialog.dismiss()
-                    }
-                    builder.show();
+            if (newdat.length <= 13){
+                val builder = CFAlertDialog.Builder(this)
+                    .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                    .setTextGravity(Gravity.CENTER)
+                    .setTitle("Uknown format")
+                    .setMessage("Enter your phone number in the format +254_7xxxxxxxxx")
+                builder.setHeaderView(R.layout.popunknown)
+                builder.addButton(
+                    "CLOSE",
+                    Color.parseColor("#FFFFFF"),
+                    Color.parseColor("#429ef4"),
+                    CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                    CFAlertDialog.CFAlertActionAlignment.CENTER
+                ) { dialog, which ->
+                    dialog.dismiss()
                 }
+                builder.show();
+                return@setOnClickListener
+            }else {
 
+                val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/phone")
+                getcurrent.setValue(newdat)
+                    .addOnSuccessListener {
+                        val builder = CFAlertDialog.Builder(this)
+                            .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
+                            .setTextGravity(Gravity.CENTER)
+                            .setTitle("Successfully updated")
+                            .setMessage("Your clients will communicate to you using your new phone number.")
+                        builder.setHeaderView(R.layout.popphonel)
+                        builder.addButton(
+                            "CLOSE",
+                            Color.parseColor("#FFFFFF"),
+                            Color.parseColor("#429ef4"),
+                            CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                            CFAlertDialog.CFAlertActionAlignment.CENTER
+                        ) { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        builder.show();
+                    }
+            }
         }
         editaboutme.setOnClickListener {
             val myid = FirebaseAuth.getInstance().uid
@@ -125,11 +146,11 @@ class EditAbout : AppCompatActivity() {
             getcurrent.setValue(newdat)
                 .addOnSuccessListener {
                     val builder = CFAlertDialog.Builder(this)
-                        .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
-                            builder.setHeaderView(R.layout.popabout)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                                 .setTextGravity(Gravity.CENTER)
                         .setTitle("Successfully updated")
-                        .setMessage("About can be updated at anytime.")
+                        .setMessage("This will us know you better")
+                    builder.setHeaderView(R.layout.popabout)
                     builder.addButton(
                         "CLOSE",
                         Color.parseColor("#FFFFFF"),
@@ -145,17 +166,18 @@ class EditAbout : AppCompatActivity() {
         }
 
         changeweb.setOnClickListener {
+            Toast.makeText(this, "processing",Toast.LENGTH_SHORT).show()
             val myid = FirebaseAuth.getInstance().uid
             val newdat = editweb.text.toString()
             val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/website")
             getcurrent.setValue(newdat)
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                     val builder = CFAlertDialog.Builder(this)
-                        .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTitle("Successfully updated")
                         .setTextGravity(Gravity.CENTER)
-                        .setHeaderView(R.layout.popweb)
-                        .setMessage("About can be updated at anytime.")
+                        .setMessage("Expand your sells to more clients.")
+                    builder.setHeaderView(R.layout.popweb)
                     builder.addButton(
                         "CLOSE",
                         Color.parseColor("#FFFFFF"),
@@ -175,13 +197,13 @@ class EditAbout : AppCompatActivity() {
             val newdat = editegender.text.toString()
             val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/gender")
             getcurrent.setValue(newdat)
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                     val builder = CFAlertDialog.Builder(this)
-                        .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
-                        .setHeaderView(R.layout.popgender)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTextGravity(Gravity.CENTER)
                         .setTitle("Successfully updated")
-                        .setMessage("About can be updated at anytime.")
+                        .setMessage("This will help us know you better")
+                    builder.setHeaderView(R.layout.popgender)
                     builder.addButton(
                         "CLOSE",
                         Color.parseColor("#FFFFFF"),
@@ -203,9 +225,9 @@ class EditAbout : AppCompatActivity() {
             getcurrent.setValue(newdat)
                 .addOnSuccessListener {
                     val builder = CFAlertDialog.Builder(this)
-                        .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTitle("Successfully updated")
-                        .setMessage("About can be updated at anytime.")
+                        .setMessage("We are here to help")
                         .setTextGravity(Gravity.CENTER)
                     builder.setHeaderView(R.layout.bottom_sheet)
                     builder.addButton(
@@ -229,8 +251,8 @@ class EditAbout : AppCompatActivity() {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
                 selectedPhotoUri = result.uri
-                uploadImageToFirebaseStorage()
                 myprofileimageedit.setImageURI(selectedPhotoUri)
+                uploadImageToFirebaseStorage()
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
                 Toast.makeText(this, "$error",Toast.LENGTH_LONG).show()
@@ -238,6 +260,7 @@ class EditAbout : AppCompatActivity() {
         }
     }
     private fun uploadImageToFirebaseStorage() {
+        Toast.makeText(this,"Please wait",Toast.LENGTH_LONG).show()
         if (selectedPhotoUri == null) return
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
@@ -248,11 +271,11 @@ class EditAbout : AppCompatActivity() {
                     val myid = FirebaseAuth.getInstance().uid
                     val path = FirebaseDatabase.getInstance().getReference("users/$myid/profileImageUrl")
                     path.setValue(url)
-                        .addOnSuccessListener {
-                            val builder = CFAlertDialog.Builder(this@EditAbout)
-                                .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
+                        .addOnCompleteListener {
+                            val builder = CFAlertDialog.Builder(this)
+                                .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                                 .setTitle("Successfully updated")
-                                .setMessage("About can be updated at anytime.")
+                                .setMessage("Your profile pic can be updated at anytime.")
                                 .setTextGravity(Gravity.CENTER)
                             builder.setHeaderView(R.layout.popok)
                             builder.addButton(
@@ -277,7 +300,7 @@ class EditAbout : AppCompatActivity() {
     private fun displayabout() {
         val  myprofile = FirebaseAuth.getInstance().uid
         val  ref= FirebaseDatabase.getInstance().getReference("users/$myprofile")
-        ref.addValueEventListener(object : ValueEventListener {
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                val profile = p0.getValue(User::class.java)
                 if (profile!=null){
@@ -304,9 +327,11 @@ class EditAbout : AppCompatActivity() {
                     val org = profile.organisation
                     editorg.setText(org)
 
+                   val RequestManager : RequestManager = Glide.with(this@EditAbout)
+
                     val profileimg = profile.profileImageUrl
                     val view = myprofileimageedit
-                    Glide.with(this@EditAbout).load(profileimg).placeholder(R.drawable.placeholder).into(view)
+                    RequestManager.load(profileimg).placeholder(R.drawable.placeholder).into(view)
 
                 }else{
                     return

@@ -2,6 +2,7 @@ package com.studio.housing3.ui
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -64,10 +65,48 @@ var root :View? = null
         val intent = Intent(activity, EditAbout::class.java)
             startActivity(intent)
         }
-
+        val verify = root?.findViewById(R.id.verifybtn) as TextView
+        verify.setOnClickListener {
+            val builder = CFAlertDialog.Builder(activity)
+                .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                .setTitle("Terms and Conditions Apply")
+                .setTextGravity(Gravity.CENTER)
+                .setMessage("By verifying your account you agree to our terms and conditions, attach legal document and other" +
+                        "neccessary files. reply will be sent in 3 working days")
+            builder.setHeaderView(R.layout.popverify)
+            builder.addButton(
+                "                    I agree                    ",
+                Color.parseColor("#FFFFFF"),
+                Color.parseColor("#429ef4"),
+                CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                CFAlertDialog.CFAlertActionAlignment.CENTER
+            ) { dialog, which ->
+                email()
+                dialog.dismiss()
+            }
+            builder.show();
+        }
 
         return root
     }
+    private fun email(){
+        Toast.makeText(activity,"redirecting...",Toast.LENGTH_SHORT).show()
+        val email = "skywayzilla.info@gmail.org"
+        val emailIntent = Intent(
+            Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "$email", null
+            )
+
+        )
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Buying property")
+        emailIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            "Request account verification, attach legal documents"
+        )
+        startActivity(Intent.createChooser(emailIntent, "Send Email"))
+    }
+
+
         var profile: User? = null
     private fun displayprofilepic() {
         val  myprofile = FirebaseAuth.getInstance().uid

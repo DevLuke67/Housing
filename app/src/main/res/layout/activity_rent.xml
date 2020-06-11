@@ -45,23 +45,34 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Looking to rent?"
+        android:text="Looking to Rent / Sell?"
         android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="232dp"
-        android:layout_height="173dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/rent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
+    <TextView
+        android:fontFamily="@font/proximanovaregular"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Note: Use genuine details"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
     <EditText
+        android:maxLength="30"
         android:fontFamily="@font/proximanovaregular"
         android:id="@+id/lhomeocation"
         android:layout_width="match_parent"
@@ -80,6 +91,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <EditText
+        android:maxLength="30"
         android:paddingLeft="10dp"
         android:drawablePadding="5dp"
         android:drawableStart="@drawable/ic_home_black_24dp"
@@ -201,7 +213,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:hint="Ksh"
-        android:inputType="number|text"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -214,7 +226,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:hint="ksh"
-        android:inputType="number"
+        android:inputType="text"
         app:layout_constraintStart_toEndOf="@+id/pricerange1"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 

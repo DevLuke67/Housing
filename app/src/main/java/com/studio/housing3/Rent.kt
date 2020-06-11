@@ -2,17 +2,18 @@ package com.studio.housing3
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBar
+import com.bumptech.glide.Glide
+import com.crowdfire.cfalertdialog.CFAlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -23,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_rent.*
+import kotlinx.android.synthetic.main.activity_view_sales.*
 import modules.Sales
 import modules.User
 import java.text.SimpleDateFormat
@@ -37,7 +39,40 @@ class Rent : AppCompatActivity(){
          actionBar?.hide()
 
          submit.setOnClickListener {
-             savePostToFirebaseDatabase()
+             progress.visibility = View.VISIBLE
+             val input1 = lhomeocation.text.toString()
+             val input2 = homename.text.toString()
+             val p1 = pricerange1.text.toString()
+             val p2 = pricerange2.text.toString()
+             val about = abouthome.text.toString()
+             val img1 = selectedPhotoUri
+             val img2 = selectedPhoto2Uri
+             val img3 = selectedPhoto3Uri
+             if (input1.isEmpty() || input2.isEmpty() || p1.isEmpty() || p2.isEmpty() || about.isEmpty() || img1 == null || img2 == null || img3 == null){
+                 progress.visibility = View.INVISIBLE
+                 val builder = CFAlertDialog.Builder(this)
+                     .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                     .setTitle("Not so fast!")
+                     .setTextGravity(Gravity.CENTER)
+                     .setMessage("Some details are missing, please check your details.")
+                 builder.setHeaderView(R.layout.popstop)
+                 builder.addButton(
+                     "                    Alright                    ",
+                     Color.parseColor("#FFFFFF"),
+                     Color.parseColor("#429ef4"),
+                     CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                     CFAlertDialog.CFAlertActionAlignment.CENTER
+
+                 ) { dialog, which ->
+                     //...........
+                     //.........
+                     dialog.dismiss()
+                 }
+                 builder.show();
+             }else{
+                 checkinfo()
+             }
+
          }
          getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
          val property: Spinner = findViewById(R.id.propertytype)
@@ -241,9 +276,10 @@ class Rent : AppCompatActivity(){
                     val fullnames = info.fullnames
                     val profileimageurl = info.profileImageUrl
                     val email = info.email
+                    val phone = info.phone
                     val timestamp = formatedDate.toString()
                     val path = FirebaseDatabase.getInstance().reference.child("posts/$randomuid")
-                    val sales = Sales(myid, fullnames,profileimageurl,email, postcode,homename,location,propertytype!!,rooms!!,bedrooms!!,bathrooms!!,furnishing!!,price1,price2,abouthome,image1 = "",image2 = "",image3 = "",timestamp = timestamp)
+                    val sales = Sales(myid, fullnames,profileimageurl,email, postcode,homename,location,propertytype!!,rooms!!,bedrooms!!,bathrooms!!,furnishing!!,price1,price2,abouthome,image1 = "",image2 = "",image3 = "",timestamp = timestamp,phone = phone)
                     path.setValue(sales).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                         uploadImageToFirebaseStorage()
@@ -262,7 +298,44 @@ return@addOnCompleteListener
         })
 
     }
+    private fun checkinfo() {
+        val  myprofile = FirebaseAuth.getInstance().uid
+        val  ref= FirebaseDatabase.getInstance().getReference("users/$myprofile")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val profile = p0.getValue(User::class.java)
+              if (profile?.profileImageUrl == null || profile.phone == "Not updated" || profile.gender == "Not specified" || profile.website == "Not available" || profile.location == "Not updated" || profile.bio == "Not updated"|| profile.email == ""){
+                  progress.visibility = View.INVISIBLE
+                  val builder = CFAlertDialog.Builder(this@Rent)
+                      .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                      .setTitle("Oops! You Don't Qualify")
+                      .setTextGravity(Gravity.CENTER)
+                      .setMessage("Complete your profile and try again")
+                  builder.setHeaderView(R.layout.popqualify)
+                  builder.addButton(
+                      "                    OK                    ",
+                      Color.parseColor("#FFFFFF"),
+                      Color.parseColor("#429ef4"),
+                      CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                      CFAlertDialog.CFAlertActionAlignment.CENTER
+                  ) { dialog, which ->
+                      //...........
+                      //.........
+                      dialog.dismiss()
+                  }
+                  builder.show();
+              }else{
+                  savePostToFirebaseDatabase()
+              }
 
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                return
+            }
+
+        })
+
+    }
     private fun uploadImageToFirebaseStorage() {
         progress.visibility = View.VISIBLE
         if (selectedPhotoUri == null || selectedPhoto2Uri == null || selectedPhoto3Uri == null) return
@@ -270,39 +343,42 @@ return@addOnCompleteListener
         val formatter = SimpleDateFormat.getDateInstance() //or use getDateInstance()
         val formatedDate = formatter.format(date)
         val myid = FirebaseAuth.getInstance().uid.toString()
+        val ref = System.currentTimeMillis()/10
+        val ref2 = System.currentTimeMillis()*3
+        val ref3 = System.currentTimeMillis()*7
 
-        val ref = FirebaseStorage.getInstance().getReference("/posts/$randomuid")
+        val path = FirebaseStorage.getInstance().getReference("posts/$myid/$ref")
+        val path2 = FirebaseStorage.getInstance().getReference("posts/$myid/$ref2")
+        val path3 = FirebaseStorage.getInstance().getReference("posts/$myid/$ref3/")
 
-        ref.putFile(selectedPhotoUri!!)
+        path.putFile(selectedPhotoUri!!)
             .addOnSuccessListener {
-                ref.downloadUrl.addOnSuccessListener {
-                    val image2url = it.toString()
-                    val set = FirebaseDatabase.getInstance().getReference("posts/$randomuid/image2")
-                    set.setValue(image2url)
-                    ref.putFile(selectedPhoto2Uri!!)
-                        .addOnSuccessListener {
-                            ref.downloadUrl.addOnSuccessListener {
-                                val image1url = it.toString()
-                                val set2 = FirebaseDatabase.getInstance().getReference("posts/$randomuid/image1")
-                                set2.setValue(image1url)
-                                ref.putFile(selectedPhoto3Uri!!)
-                                    .addOnSuccessListener {
-                                        ref.downloadUrl.addOnSuccessListener {
-                                            val image3url = it.toString()
-                                            val set3 = FirebaseDatabase.getInstance().getReference("posts/$randomuid/image3")
-                                            set3.setValue(image3url)
-                                            progress.visibility = View.INVISIBLE
-                                            Toast.makeText(this, "Complete",Toast.LENGTH_LONG).show()
-                                        }
-                                    }
-                            }
-                        }
-
+                path.downloadUrl.addOnSuccessListener {
+                    val url1 = it.toString()
+                    val db = FirebaseDatabase.getInstance().getReference("posts/$randomuid/image1")
+                    db.setValue(url1)
                 }
             }
-            .addOnFailureListener {
-
+        path2.putFile(selectedPhoto2Uri!!)
+            .addOnSuccessListener {
+                path2.downloadUrl.addOnSuccessListener {
+                    val url2 = it.toString()
+                    val db = FirebaseDatabase.getInstance().getReference("posts/$randomuid/image2")
+                    db.setValue(url2)
+                }
             }
+        path3.putFile(selectedPhoto3Uri!!)
+            .addOnSuccessListener {
+                path3.downloadUrl.addOnSuccessListener {
+                    val url3 = it.toString()
+                    val db = FirebaseDatabase.getInstance().getReference("posts/$randomuid/image3")
+                    db.setValue(url3)
+                    Toast.makeText(this, "Completed",Toast.LENGTH_LONG).show()
+                    onBackPressed()
+                }
+            }
+
+
     }
     var selectedroom :String? = null
     var selectedproperty: String? = null
