@@ -20,8 +20,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import com.studio.housing3.EditAbout
 import com.studio.housing3.Login
+import com.studio.housing3.LoginRegister
 import com.studio.housing3.R
 import modules.User
 
@@ -50,7 +52,7 @@ var root :View? = null
             ) { dialog, which ->
                 //...........
                 FirebaseAuth.getInstance().signOut()
-                val intent = Intent(activity, Login::class.java)
+                val intent = Intent(activity, LoginRegister::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 //.........
@@ -152,7 +154,7 @@ var root :View? = null
                     idorg?.setText(org)
                     val pimage = profile?.profileImageUrl
                     val view = root?.findViewById<ImageView>(R.id.myprofileimage)
-                    context?.let { Glide.with(it).load(pimage).placeholder(R.drawable.placeholder).into(view!!) }
+                    Picasso.get().load(pimage).placeholder(R.drawable.placeholder).into(view)
                 }else{
                     return
                 }

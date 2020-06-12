@@ -2,10 +2,13 @@ package com.studio.housing3.ui.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,11 +34,12 @@ class ExploreFragment : Fragment() {
     companion object{
         var USER = "USER"
     }
+    var root:View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        root = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        val profileimage = root.findViewById(R.id.profilepicture) as ImageView
+        val profileimage = root?.findViewById(R.id.profilepicture) as ImageView
         val myid = FirebaseAuth.getInstance().uid
         val fetchprofile = FirebaseDatabase.getInstance().getReference("users/$myid")
         fetchprofile.addListenerForSingleValueEvent(object : ValueEventListener{
@@ -47,6 +51,25 @@ class ExploreFragment : Fragment() {
 
             }
         })
+        //...
+        val search = root?.findViewById(R.id.search) as EditText
+        search.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchchat()
+            }
+
+
+
+        })
+        ///...
         //....
             val ref = FirebaseDatabase.getInstance().getReference("/posts")
             ref.addValueEventListener(object : ValueEventListener {
@@ -68,7 +91,7 @@ class ExploreFragment : Fragment() {
                         intent.putExtra(USER, userItem.user)
                         startActivity(intent)
                     }
-                    val rec = root.findViewById(R.id.recyclerview_dashboard) as RecyclerView
+                    val rec = root?.findViewById(R.id.recyclerview_dashboard) as RecyclerView
                     rec.adapter = adapter
                 }
 
@@ -80,6 +103,39 @@ class ExploreFragment : Fragment() {
 
 
         return root
+
+    }
+
+    private fun searchchat() {
+        val getid = root?.findViewById(R.id.search) as EditText
+        val input = getid.text.toString()
+
+        val keys = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("location").startAt(input).endAt(input + "\uf8ff")
+
+        keys.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val adapter = GroupAdapter<ViewHolder>()
+                p0.children.forEach{
+                    val user = it.getValue(Sales::class.java)
+                    adapter.add(UserPost(user!!))
+
+                }
+
+                adapter.setOnItemClickListener{item, view ->
+                    val userItem = item as UserPost
+                    val intent = Intent(view.context, ViewSales::class.java)
+                    intent.putExtra(USER, userItem.user)
+                    startActivity(intent)
+                }
+                val rec = root?.findViewById(R.id.recyclerview_dashboard) as RecyclerView
+                rec.adapter = adapter
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+
 
     }
 

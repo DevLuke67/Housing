@@ -373,8 +373,29 @@ return@addOnCompleteListener
                     val url3 = it.toString()
                     val db = FirebaseDatabase.getInstance().getReference("posts/$randomuid/image3")
                     db.setValue(url3)
+                        .addOnCompleteListener {
+                            val builder = CFAlertDialog.Builder(this)
+                                .setDialogStyle(CFAlertDialog.CFAlertStyle.BOTTOM_SHEET)
+                                .setTitle("Submitted!")
+                                .setTextGravity(Gravity.CENTER)
+                                .setMessage("Complete your profile and try again")
+                            builder.setHeaderView(R.layout.popok)
+                            builder.addButton(
+                                "                    OK                    ",
+                                Color.parseColor("#FFFFFF"),
+                                Color.parseColor("#429ef4"),
+                                CFAlertDialog.CFAlertActionStyle.POSITIVE,
+                                CFAlertDialog.CFAlertActionAlignment.CENTER
+                            ) { dialog, which ->
+                                //...........
+                               dialog.dismiss()
+                                onBackPressed()
+
+                            }
+                            builder.show();
+                        }
                     Toast.makeText(this, "Completed",Toast.LENGTH_LONG).show()
-                    onBackPressed()
+                    progress.visibility = View.INVISIBLE
                 }
             }
 

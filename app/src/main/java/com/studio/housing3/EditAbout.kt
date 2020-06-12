@@ -2,6 +2,7 @@ package com.studio.housing3
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Picture
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_edit_about.*
@@ -49,7 +51,7 @@ class EditAbout : AppCompatActivity() {
             val newdat = etlocation.text.toString()
             val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/location")
             getcurrent.setValue(newdat)
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                     val builder = CFAlertDialog.Builder(this)
                         .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTextGravity(Gravity.CENTER)
@@ -74,7 +76,7 @@ class EditAbout : AppCompatActivity() {
             val newdat = emailedit.text.toString()
             val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/email")
             getcurrent.setValue(newdat)
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                     val builder = CFAlertDialog.Builder(this)
                         .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTitle("Successfully updated")
@@ -140,11 +142,12 @@ class EditAbout : AppCompatActivity() {
             }
         }
         editaboutme.setOnClickListener {
+            Toast.makeText(this,"wait",Toast.LENGTH_SHORT).show()
             val myid = FirebaseAuth.getInstance().uid
             val newdat = aboutmeedited.text.toString()
             val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/bio")
             getcurrent.setValue(newdat)
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                     val builder = CFAlertDialog.Builder(this)
                         .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                                 .setTextGravity(Gravity.CENTER)
@@ -193,6 +196,7 @@ class EditAbout : AppCompatActivity() {
         }
 
         changegender.setOnClickListener {
+            Toast.makeText(this,"wait",Toast.LENGTH_SHORT).show()
             val myid = FirebaseAuth.getInstance().uid
             val newdat = editegender.text.toString()
             val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/gender")
@@ -219,11 +223,12 @@ class EditAbout : AppCompatActivity() {
         }
 
         changeorganisation.setOnClickListener {
+            Toast.makeText(this,"wait",Toast.LENGTH_SHORT).show()
             val myid = FirebaseAuth.getInstance().uid
             val newdat = editorg.text.toString()
             val getcurrent = FirebaseDatabase.getInstance().getReference("users/$myid/organisation")
             getcurrent.setValue(newdat)
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                     val builder = CFAlertDialog.Builder(this)
                         .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
                         .setTitle("Successfully updated")
@@ -253,6 +258,7 @@ class EditAbout : AppCompatActivity() {
                 selectedPhotoUri = result.uri
                 myprofileimageedit.setImageURI(selectedPhotoUri)
                 uploadImageToFirebaseStorage()
+                Toast.makeText(this,"please wait",Toast.LENGTH_SHORT).show()
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
                 Toast.makeText(this, "$error",Toast.LENGTH_LONG).show()
@@ -260,7 +266,6 @@ class EditAbout : AppCompatActivity() {
         }
     }
     private fun uploadImageToFirebaseStorage() {
-        Toast.makeText(this,"Please wait",Toast.LENGTH_LONG).show()
         if (selectedPhotoUri == null) return
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
@@ -272,28 +277,13 @@ class EditAbout : AppCompatActivity() {
                     val path = FirebaseDatabase.getInstance().getReference("users/$myid/profileImageUrl")
                     path.setValue(url)
                         .addOnCompleteListener {
-                            val builder = CFAlertDialog.Builder(this)
-                                .setDialogStyle(CFAlertDialog.CFAlertStyle.NOTIFICATION)
-                                .setTitle("Successfully updated")
-                                .setMessage("Your profile pic can be updated at anytime.")
-                                .setTextGravity(Gravity.CENTER)
-                            builder.setHeaderView(R.layout.popok)
-                            builder.addButton(
-                                "CLOSE",
-                                Color.parseColor("#FFFFFF"),
-                                Color.parseColor("#429ef4"),
-                                CFAlertDialog.CFAlertActionStyle.POSITIVE,
-                                CFAlertDialog.CFAlertActionAlignment.CENTER
-                            ) { dialog, which ->
-                                dialog.dismiss()
-                            }
-                            builder.show()
+                     Toast.makeText(this, "profile updated",Toast.LENGTH_SHORT).show()
                         }
 
                 }
             }
             .addOnFailureListener {
-
+Toast.makeText(this, "failed to update", Toast.LENGTH_SHORT).show()
 
             }
     }
@@ -327,11 +317,10 @@ class EditAbout : AppCompatActivity() {
                     val org = profile.organisation
                     editorg.setText(org)
 
-                   val RequestManager : RequestManager = Glide.with(this@EditAbout)
-
                     val profileimg = profile.profileImageUrl
                     val view = myprofileimageedit
-                    RequestManager.load(profileimg).placeholder(R.drawable.placeholder).into(view)
+                    Picasso.get().load(profileimg).into(view)
+
 
                 }else{
                     return

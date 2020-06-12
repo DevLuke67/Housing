@@ -24,6 +24,10 @@ class Register : AppCompatActivity() {
             onBackPressed()
 
         }
+        loginredirect.setOnClickListener{
+            intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }
 createaccount.setOnClickListener {
     performRegister()
 }
@@ -81,7 +85,7 @@ createaccount.setOnClickListener {
     private fun saveUserToFirebaseDatabase() {
         val fullnames = fullnames.text.toString()
         val email = emailaddress.text.toString()
-        val profileImageUrl = ""
+        val profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/housing-62cbc.appspot.com/o/profile%2Fcreateprofile.png?alt=media&token=93db308b-2a8b-4f8d-940d-17a56bfe4644"
         val bio = "Not updated"
         val location = "Not updated"
         val phone = "Not updated"

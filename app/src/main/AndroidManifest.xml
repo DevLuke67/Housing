@@ -26,10 +26,18 @@
         </activity>
         <activity
             android:name=".LoginRegister"
-            android:theme="@style/register" />
+            android:theme="@style/register" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginRegister" />
+        </activity>
         <activity
             android:name=".Login"
-            android:theme="@style/register" />
+            android:theme="@style/register" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginRegister" />
+        </activity>
         <activity
             android:name=".Register"
             android:theme="@style/register" />
